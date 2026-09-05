@@ -1,8 +1,6 @@
 #include "util/string.h"
 
 #include <stddef.h> // for NULL
-#include <errno.h>  // to dump error message
-#include <stdio.h>  // to print output
 
 /*
  * @brief Returns length of string
