@@ -1,6 +1,8 @@
 #include "util/string.h"
 
 #include <stddef.h> // for NULL
+#include <errno.h>  // to dump error message
+#include <stdio.h>  // to print output
 
 /*
  * @brief Returns length of string
@@ -79,7 +81,7 @@ char *strncat(char *dest, const char *src, long n)
         *(dest + destlen + i) = *(src + i);
         ++i;
     }
-    *(dest + destlen + i) = '\0';
+    *(dest + destlen + n) = '\0';
     return dest;
 }
 

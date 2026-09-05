@@ -206,9 +206,27 @@ int strncmp6()
 
 int strncat1()
 {
-    char *dest = malloc(20 * sizeof(char));
-    dest = "";
-    char *src = "";
+    char dest[] = "france";
+    char src[] = "italy";
+    long n = 5;
+
+    char *result = strncat(dest, src, n);
+    char *expected = "franceitaly";
+    if (strncmp(result, expected, strlen(result)) != 0)
+    {
+        fprintf(stderr, "Result is %s\n", result);
+        fprintf(stderr, "Expected is %s\n", expected);
+        fprintf(stderr, "Strings are the same.\n");
+        return -1;
+    }
+    fprintf(stdout, "Success for strncat1!\n");
+    return 0;
+}
+
+int strncat2()
+{
+    char dest[] = "";
+    char src[] = "";
     long n = 5;
 
     char *result = strncat(dest, src, n);
@@ -220,8 +238,64 @@ int strncat1()
         fprintf(stderr, "Strings are the same.\n");
         return -1;
     }
-    fprintf(stdout, "Success for strncat1!\n");
-    free(dest);
+    fprintf(stdout, "Success for strncat2!\n");
+    return 0;
+}
+
+int strncat3()
+{
+    char dest[100] = "harvey"; // make sure to reserve enough space
+    char src[] = " mudders";
+    long n = 5;
+
+    char *result = strncat(dest, src, n);
+    char *expected = "harvey mudd";
+    if (strncmp(result, expected, strlen(result)) != 0)
+    {
+        fprintf(stderr, "Result is %s\n", result);
+        fprintf(stderr, "Expected is %s\n", expected);
+        fprintf(stderr, "Strings are the same.\n");
+        return -1;
+    }
+    fprintf(stdout, "Success for strncat3!\n");
+    return 0;
+}
+
+int strncat4()
+{
+    char dest[100] = ""; // make sure to reserve enough space
+    char src[] = " mudders";
+    long n = 5;
+
+    char *result = strncat(dest, src, n);
+    char *expected = " mudd";
+    if (strncmp(result, expected, strlen(result)) != 0)
+    {
+        fprintf(stderr, "Result is %s\n", result);
+        fprintf(stderr, "Expected is %s\n", expected);
+        fprintf(stderr, "Strings are the same.\n");
+        return -1;
+    }
+    fprintf(stdout, "Success for strncat4!\n");
+    return 0;
+}
+
+int strncat5()
+{
+    char dest[] = "france";
+    char src[] = "italy";
+    long n = 25252525525252525;
+
+    char *result = strncat(dest, src, n);
+    char *expected = "franceitaly";
+    if (strncmp(result, expected, strlen(result)) != 0)
+    {
+        fprintf(stderr, "Result is %s\n", result);
+        fprintf(stderr, "Expected is %s\n", expected);
+        fprintf(stderr, "Strings are the same.\n");
+        return -1;
+    }
+    fprintf(stdout, "Success for strncat5!\n");
     return 0;
 }
 
@@ -241,4 +315,8 @@ int main(int argc, char **argv)
     strncmp5();
     strncmp6();
     strncat1();
+    strncat2();
+    strncat3();
+    strncat4();
+    strncat5();
 }
