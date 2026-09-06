@@ -4,7 +4,7 @@
 #include <unistd.h> // for fork
 
 /*
- * TODO: implement me!
+ * @brief Initialize execution engine attributes for shell
  */
 void exec_init(char *environment)
 {
@@ -12,7 +12,7 @@ void exec_init(char *environment)
 }
 
 /*
- * TODO: implement me!
+ * @brief Clean up the attributes from execution
  */
 void exec_cleanup()
 {
@@ -20,7 +20,12 @@ void exec_cleanup()
 }
 
 /*
- * TODO: implement me!
+ * @brief Takes a command and arguments array as input and executes the command in
+ * a child process created by the function.
+ *
+ * @param command: the binary executable to run
+ * @param argv: the arguments to the command to run
+ * @returns: the pid_t of the child process created on success, else error code
  */
 pid_t execute_process(const char *command, char **argv)
 {

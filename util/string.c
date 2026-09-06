@@ -6,7 +6,7 @@
  * @brief Returns length of string
  *
  * @param[in] *str The input string
- * @param[out] strlen The length of the string
+ * @returns The length of the string
  */
 long strlen(const char *str)
 {
@@ -25,7 +25,7 @@ long strlen(const char *str)
  *
  * @param[in] *haystack The given string
  * @param[in] *needle The specified substring
- * @param[out] *strstr The pointer to the first index of the substring in the string
+ * @returns The pointer to the first index of the substring in the string
  */
 char *strstr(const char *haystack, const char *needle)
 {
@@ -62,6 +62,7 @@ char *strstr(const char *haystack, const char *needle)
  * @param[in] *dest The destination string.
  * @param[in] *src The source string.
  * @param[in] n The number of characters to copy.
+ * @returns a pointer to the destination string
  */
 char *strncat(char *dest, const char *src, long n)
 {
@@ -89,7 +90,7 @@ char *strncat(char *dest, const char *src, long n)
  * @param[in] *s1 The first input string
  * @param[in] *s2 The second input string
  * @param[in] n  The max number of characters to check
- * @param[out] strncmp Integer value which is positive if first string is greater, negative if second string is greater, and 0 if the two strings are equal
+ * @returns Integer value which is positive if first string is greater, negative if second string is greater, and 0 if the two strings are equal
  */
 int strncmp(const char *s1, const char *s2, long n)
 {
