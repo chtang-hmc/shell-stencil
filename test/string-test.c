@@ -8,6 +8,7 @@
 #include <stdlib.h>   // for malloc, realloc, free
 #include <sys/wait.h> // for waitpid
 
+// Tests strlen on a standard string.
 int strlentest1()
 {
     char *helloworld = "Hello World!";
@@ -21,6 +22,7 @@ int strlentest1()
     return 0;
 }
 
+// Tests strlen on a longer string.
 int strlentest2()
 {
     char *text = "What additional background information could you find to help understand the organization's business/competitors/etc?";
@@ -34,6 +36,7 @@ int strlentest2()
     return 0;
 }
 
+// Tests strlen on an empty string.
 int strlentestempty()
 {
     char *empty = "";
@@ -47,6 +50,7 @@ int strlentestempty()
     return 0;
 }
 
+// Tests strstr when the substring is not found.
 int strstrtest1()
 {
     char *haystack = "harveymudd";
@@ -62,6 +66,7 @@ int strstrtest1()
     return 0;
 }
 
+// Tests strstr when the substring is at the beginning.
 int strstrtest2()
 {
     char *haystack = "harveymudd";
@@ -77,6 +82,7 @@ int strstrtest2()
     return 0;
 }
 
+// Tests strstr when the needle is longer than the haystack.
 int strstrtest3()
 {
     char *haystack = "harvey";
@@ -92,6 +98,7 @@ int strstrtest3()
     return 0;
 }
 
+// Tests strstr when the substring occurs in the middle.
 int strstrtest4()
 {
     char *haystack = "What additional background information could you find to help understand the organization's business/competitors/etc?";
@@ -108,6 +115,7 @@ int strstrtest4()
     return 0;
 }
 
+// Tests strncmp on two empty strings.
 int strncmp1()
 {
     char *s1 = "";
@@ -124,6 +132,7 @@ int strncmp1()
     return 0;
 }
 
+// Tests strncmp on two identical strings.
 int strncmp2()
 {
     char *s1 = "Harvey";
@@ -140,6 +149,7 @@ int strncmp2()
     return 0;
 }
 
+// Tests strncmp when the characters differ.
 int strncmp3()
 {
     char *s1 = "Harvey";
@@ -156,6 +166,7 @@ int strncmp3()
     return 0;
 }
 
+// Tests strncmp when the first n characters match.
 int strncmp4()
 {
     char *s1 = "Harvey";
@@ -172,6 +183,7 @@ int strncmp4()
     return 0;
 }
 
+// Tests strncmp when strings differ after n characters.
 int strncmp5()
 {
     char *s1 = "Harvey";
@@ -188,6 +200,7 @@ int strncmp5()
     return 0;
 }
 
+// Tests strncmp on a longer string with one differing character.
 int strncmp6()
 {
     char *s1 = "What additional background information could you find to help understand the organization's business/competitors/etc?";
@@ -204,6 +217,7 @@ int strncmp6()
     return 0;
 }
 
+// Tests strncmp when one string ends before n characters.
 int strncmp7()
 {
     char *s1 = "Harvey";
@@ -220,6 +234,7 @@ int strncmp7()
     return 0;
 }
 
+// Tests strncat on two standard strings.
 int strncat1()
 {
     char dest[100] = "france";
@@ -239,6 +254,7 @@ int strncat1()
     return 0;
 }
 
+// Tests strncat on two empty strings.
 int strncat2()
 {
     char dest[100] = "";
@@ -258,6 +274,7 @@ int strncat2()
     return 0;
 }
 
+// Tests strncat when n limits the number of characters appended.
 int strncat3()
 {
     char dest[100] = "harvey"; // make sure to reserve enough space
@@ -277,6 +294,7 @@ int strncat3()
     return 0;
 }
 
+// Tests strncat when the destination string is empty.
 int strncat4()
 {
     char dest[100] = ""; // make sure to reserve enough space
@@ -296,6 +314,7 @@ int strncat4()
     return 0;
 }
 
+// Tests strncat when n is larger than the source string.
 int strncat5()
 {
     char dest[100] = "france";

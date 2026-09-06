@@ -7,9 +7,6 @@
 
 /*
  * @brief Initialize string parsing attributes for an input
- *
- * Hint: what should the initial values of each of the attributes be input
- *       attributes be?
  */
 void userinput_init() {
     input_length = 0; 
@@ -17,9 +14,7 @@ void userinput_init() {
 }
 
 /*
- * TODO: implement me!
- *
- * Hint: is there anything else that can be reused here?
+ * @brief Free memory and reset values for next iteration through
  */
 void userinput_reset() {
     // free tokens
@@ -32,24 +27,23 @@ void userinput_reset() {
 }
 
 /*
- * TODO: implement me!
- * 
- * Hint: reset all values... anything that was dynamically allocated should be
- *       freed!
+ * @brief Clean up the attributes from input parsing
  */
 void userinput_cleanup() {
     userinput_reset();
 }
 
 /*
- * TODO: implement me!
- *
- * Hints:
- *   - user input may be messy with its whitespace, be sure the command is not
- *   - command should end with '\0'
- *   - don't forget about the error cases! what behaviors should be undefined?
+ * @brief Receives a user input string and returns a "cleaned" version of the string.
+ * 
+ * @param user_input: the (messy) user input string
+ * @param strlen: the length of the user input string (to avoid buffer
+ *                overflow!)
+ * @param command: a pointer to the newly created string (likely a pointer to
+ *                 be dereferenced created on the callers stack), this is how
+ *                 the clean string is returned to the caller
+ * @returns: the length of the clean input string on success, else -1
  */
- // TODO: handle errors and return -1
 long handle_user_input(const char *user_input, long strlen, char **command) {
     // identify beginning whitespaces
     long i = 0;
@@ -101,19 +95,16 @@ long handle_user_input(const char *user_input, long strlen, char **command) {
 }
 
 /*
- * TODO: implement me!
+ * @brief Transforms a clean user string into an array of tokens.
  *
- * Hints:
- *   - we assume that str is a clean string... given this, what error cases
- *     might occur?
- *   - think about tokens' type... we have a pointer to an array of strings
- *     (which are themselves arrays...) how big is the array of strings?
- *      --> you may need to dynamically resize the array
- *      --> see "man 3 malloc" for further hints
- *   - be sure to modify the input string so that each token ends with a NULL
- *     character!
+ * @param str: the clean input string to tokenize
+ * @param strlen: the length of the input string
+ * @param tokens: a pointer to the array of tokens to be created
+ * @returns: the number of tokens created on success, else -1
  */
 long tokenize_input(char *str, long strlen, char ***tokens) {
+    num_tokens = 0;
+
     char **tokens_array = malloc(sizeof(char *) * (strlen + 1));
 
     long i = 0;
@@ -139,9 +130,7 @@ long tokenize_input(char *str, long strlen, char ***tokens) {
         // handle end of command
         if (*(str + i + current_token_len) == '\0') {
             tokens_array[num_tokens] = NULL;
-            num_tokens++;
 
-            tokens_array = (char **) realloc(tokens_array, sizeof(char *) * num_tokens);
             *tokens = tokens_array; // return the allocated tokens array
             return num_tokens;
         }
@@ -149,6 +138,7 @@ long tokenize_input(char *str, long strlen, char ***tokens) {
         i += current_token_len + 1;
     }
 
+    free(tokens_array);
     return -1;
 }
 
