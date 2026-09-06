@@ -5,15 +5,19 @@
 
 #include <stdlib.h> // for malloc, realloc, free only!
 
+static char *prev_command = NULL;
+
 /*
  * @brief Initialize string parsing attributes for an input
  *
  * Hint: what should the initial values of each of the attributes be input
  *       attributes be?
  */
-void userinput_init() {
-    input_length = 0; 
+void userinput_init()
+{
+    input_length = 0;
     num_tokens = 0;
+    prev_command = NULL;
 }
 
 /*
@@ -21,23 +25,27 @@ void userinput_init() {
  *
  * Hint: is there anything else that can be reused here?
  */
-void userinput_reset() {
+void userinput_reset()
+{
     // free tokens
-    for (long i = 0; i < num_tokens; ++i) {
+    for (long i = 0; i < num_tokens; ++i)
+    {
         free(tokens[i]);
     }
     free(tokens);
+    free(prev_command);
 
     userinput_init();
 }
 
 /*
  * TODO: implement me!
- * 
+ *
  * Hint: reset all values... anything that was dynamically allocated should be
  *       freed!
  */
-void userinput_cleanup() {
+void userinput_cleanup()
+{
     userinput_reset();
 }
 
@@ -49,11 +57,15 @@ void userinput_cleanup() {
  *   - command should end with '\0'
  *   - don't forget about the error cases! what behaviors should be undefined?
  */
- // TODO: handle errors and return -1
-long handle_user_input(const char *user_input, long strlen, char **command) {
+// TODO: handle errors and return -1
+long handle_user_input(const char *user_input, long strlen, char **command)
+{
+    free(prev_command);
+
     // identify beginning whitespaces
     long i = 0;
-    while (i < strlen && *(user_input + i) == ' ') {
+    while (i < strlen && *(user_input + i) == ' ')
+    {
         ++i;
     }
 
@@ -63,12 +75,20 @@ long handle_user_input(const char *user_input, long strlen, char **command) {
 
     // go through the user input
     long num_whitespaces = 0;
-    while (i < strlen && *(user_input + i) != '\n') {
+    while (i < strlen && *(user_input + i) != '\n')
+    {
         // filter out extra whitespaces
-        if (*(user_input + i)  != ' ') {num_whitespaces = 0;}
-        else {++num_whitespaces;}
+        if (*(user_input + i) != ' ')
+        {
+            num_whitespaces = 0;
+        }
+        else
+        {
+            ++num_whitespaces;
+        }
 
-        if (num_whitespaces <= 1) {
+        if (num_whitespaces <= 1)
+        {
             // add to buffer
             newstring[newstring_length] = *(user_input + i);
             newstring_length++;
@@ -78,25 +98,30 @@ long handle_user_input(const char *user_input, long strlen, char **command) {
     }
 
     // handle trailing white space
-    if (i < strlen && *(user_input + i) == '\n') {
-        if (num_whitespaces != 0) { // there was a whitespace before \n
+    if (i < strlen && *(user_input + i) == '\n')
+    {
+        if (num_whitespaces != 0)
+        { // there was a whitespace before \n
             newstring_length--;
             newstring[newstring_length] = '\0';
-        } else {
+        }
+        else
+        {
             newstring[newstring_length] = '\0';
         }
-    } else { // we hit strlen without having a newline character
-        // free(newstring);
+    }
+    else
+    { // we hit strlen without having a newline character
         return -1;
     }
 
-    newstring = (char *) realloc(newstring, sizeof(char) * (newstring_length + 1));
+    newstring = (char *)realloc(newstring, sizeof(char) * (newstring_length + 1));
 
     // copy newstring to command
+    prev_command = newstring;
     *command = newstring;
 
     // return!
-    // free(newstring);
     return newstring_length;
 }
 
@@ -113,23 +138,27 @@ long handle_user_input(const char *user_input, long strlen, char **command) {
  *   - be sure to modify the input string so that each token ends with a NULL
  *     character!
  */
-long tokenize_input(char *str, long strlen, char ***tokens) {
+long tokenize_input(char *str, long strlen, char ***tokens)
+{
     char **tokens_array = malloc(sizeof(char *) * (strlen + 1));
 
     long i = 0;
     long current_token_len = 0;
 
-    while (i < strlen) {
+    while (i < strlen)
+    {
         current_token_len = 0;
 
         // find word length
-        while (*(str + i + current_token_len) != ' ' && *(str + i + current_token_len) != '\0') {
+        while (*(str + i + current_token_len) != ' ' && *(str + i + current_token_len) != '\0')
+        {
             current_token_len++;
         }
 
         // create token for word
-        char *token = malloc(sizeof(char) * (current_token_len+1));
-        for (long j = 0; j < current_token_len; ++j) {
+        char *token = malloc(sizeof(char) * (current_token_len + 1));
+        for (long j = 0; j < current_token_len; ++j)
+        {
             *(token + j) = *(str + i + j);
         }
         *(token + current_token_len) = '\0';
@@ -137,11 +166,12 @@ long tokenize_input(char *str, long strlen, char ***tokens) {
         num_tokens++;
 
         // handle end of command
-        if (*(str + i + current_token_len) == '\0') {
+        if (*(str + i + current_token_len) == '\0')
+        {
             tokens_array[num_tokens] = NULL;
             num_tokens++;
 
-            tokens_array = (char **) realloc(tokens_array, sizeof(char *) * num_tokens);
+            tokens_array = (char **)realloc(tokens_array, sizeof(char *) * num_tokens);
             *tokens = tokens_array; // return the allocated tokens array
             return num_tokens;
         }
@@ -151,5 +181,3 @@ long tokenize_input(char *str, long strlen, char ***tokens) {
 
     return -1;
 }
-
-
