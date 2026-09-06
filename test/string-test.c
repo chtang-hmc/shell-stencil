@@ -204,9 +204,25 @@ int strncmp6()
     return 0;
 }
 
+int strncmp7()
+{
+    char *s1 = "Harvey";
+    char *s2 = "HarveyMudd";
+    long n = 250;
+
+    int result = strncmp(s1, s2, n);
+    if (result != '\0' - 'M')
+    {
+        fprintf(stderr, "Strings are not the same.\n");
+        return -1;
+    }
+    fprintf(stdout, "Success for strncmp7!\n");
+    return 0;
+}
+
 int strncat1()
 {
-    char dest[] = "france";
+    char dest[100] = "france";
     char src[] = "italy";
     long n = 5;
 
@@ -225,7 +241,7 @@ int strncat1()
 
 int strncat2()
 {
-    char dest[] = "";
+    char dest[100] = "";
     char src[] = "";
     long n = 5;
 
@@ -282,7 +298,7 @@ int strncat4()
 
 int strncat5()
 {
-    char dest[] = "france";
+    char dest[100] = "france";
     char src[] = "italy";
     long n = 25252525525252525;
 
@@ -314,6 +330,7 @@ int main(int argc, char **argv)
     strncmp4();
     strncmp5();
     strncmp6();
+    strncmp7();
     strncat1();
     strncat2();
     strncat3();

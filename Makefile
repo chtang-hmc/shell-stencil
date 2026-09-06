@@ -1,4 +1,4 @@
-all: string string-test
+all: string string-test shell
 
 string:
 	gcc -Wno-builtin-declaration-mismatch -g -O0 -Iinclude -I. util/string.c -o bin/string.o -c

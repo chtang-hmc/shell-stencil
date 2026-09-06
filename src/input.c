@@ -22,13 +22,13 @@ void userinput_init() {
  * Hint: is there anything else that can be reused here?
  */
 void userinput_reset() {
-    userinput_init();
-
     // free tokens
     for (long i = 0; i < num_tokens; ++i) {
         free(tokens[i]);
     }
     free(tokens);
+
+    userinput_init();
 }
 
 /*
@@ -53,17 +53,17 @@ void userinput_cleanup() {
 long handle_user_input(const char *user_input, long strlen, char **command) {
     // identify beginning whitespaces
     long i = 0;
-    while (*(user_input + i) == ' ') {
+    while (i < strlen && *(user_input + i) == ' ') {
         ++i;
     }
 
     // allocate new string
-    char *newstring = malloc(strlen * sizeof(char));
+    char *newstring = malloc((strlen + 1) * sizeof(char));
     long newstring_length = 0;
 
     // go through the user input
     long num_whitespaces = 0;
-    while (*(user_input + i) != '\n' || i < strlen) {
+    while (i < strlen && *(user_input + i) != '\n') {
         // filter out extra whitespaces
         if (*(user_input + i)  != ' ') {num_whitespaces = 0;}
         else {++num_whitespaces;}
@@ -78,23 +78,25 @@ long handle_user_input(const char *user_input, long strlen, char **command) {
     }
 
     // handle trailing white space
-    if (*(user_input + i) == '\n') {
+    if (i < strlen && *(user_input + i) == '\n') {
         if (num_whitespaces != 0) { // there was a whitespace before \n
-            newstring[newstring_length - 1] = '\0';
+            newstring_length--;
+            newstring[newstring_length] = '\0';
         } else {
             newstring[newstring_length] = '\0';
         }
+    } else { // we hit strlen without having a newline character
+        // free(newstring);
+        return -1;
     }
 
     newstring = (char *) realloc(newstring, sizeof(char) * (newstring_length + 1));
 
     // copy newstring to command
-    for (i = 0; i <= newstring_length; ++i) {
-        *(*command+i) = newstring[i];
-    }
+    *command = newstring;
 
     // return!
-    free(newstring);
+    // free(newstring);
     return newstring_length;
 }
 
@@ -112,31 +114,35 @@ long handle_user_input(const char *user_input, long strlen, char **command) {
  *     character!
  */
 long tokenize_input(char *str, long strlen, char ***tokens) {
-    char **tokens_array = malloc(sizeof(char *) * something);
+    char **tokens_array = malloc(sizeof(char *) * (strlen + 1));
 
     long i = 0;
     long current_token_len = 0;
 
     while (i < strlen) {
+        current_token_len = 0;
+
         // find word length
-        while (*(str + i + current_token_len) != ' ' && *(str + i + current_token_len) != '\n') {
+        while (*(str + i + current_token_len) != ' ' && *(str + i + current_token_len) != '\0') {
             current_token_len++;
         }
 
         // create token for word
-        char *token = malloc(sizeof(char) * current_token_len);
+        char *token = malloc(sizeof(char) * (current_token_len+1));
         for (long j = 0; j < current_token_len; ++j) {
             *(token + j) = *(str + i + j);
         }
+        *(token + current_token_len) = '\0';
         tokens_array[num_tokens] = token;
         num_tokens++;
 
         // handle end of command
-        if (*(str + i + current_token_len) == '\n') {
-            token = malloc(sizeof(NULL));
-            tokens_array[num_tokens] = token;
+        if (*(str + i + current_token_len) == '\0') {
+            tokens_array[num_tokens] = NULL;
             num_tokens++;
-            tokens = &tokens_array; // return the allocated tokens array
+
+            tokens_array = (char **) realloc(tokens_array, sizeof(char *) * num_tokens);
+            *tokens = tokens_array; // return the allocated tokens array
             return num_tokens;
         }
 

@@ -1,0 +1,6 @@
+1. How long did you spend on this assignment?
+    - 10hrs.
+2. What was your main takeaway from this assignment? (1-2 sentences)
+    - We refimilarized ourselves with the C language and system calls in C.
+3. What questions do you still have?
+    - We're still a little confused at how to effectively debug the code that we're writing. We used gdb, valgrind, and other memory tracers, but none of them were able to help us debug our code that effectively.

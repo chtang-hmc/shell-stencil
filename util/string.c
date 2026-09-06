@@ -93,18 +93,6 @@ char *strncat(char *dest, const char *src, long n)
  */
 int strncmp(const char *s1, const char *s2, long n)
 {
-    // Check string lengths to avoid long while loops due to large n
-    long strlen1 = strlen(s1);
-    long strlen2 = strlen(s2);
-    if (strlen1 < n)
-    {
-        n = strlen1;
-    }
-    if (strlen2 < n)
-    {
-        n = strlen2;
-    }
-
     int cmp = 0;
     long i = 0;
     while (i < n)
