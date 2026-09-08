@@ -41,7 +41,7 @@ int do_shell()
         const char *messy = command;
         command_length = handle_user_input(messy, command_length, &command);
 
-        if (strlen(command) == 0 || strncmp(command, "exit", 4) == 1)
+        if (strlen(command) == 0 || strncmp(command, "exit", 4) == 0)
         {
             // we have reached the end! exit out of the main loop
             break;

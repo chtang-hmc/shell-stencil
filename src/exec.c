@@ -29,6 +29,11 @@ void exec_cleanup()
  */
 pid_t execute_process(const char *command, char **argv)
 {
+    if (argv == NULL || argv[0] == NULL)
+    { // invalid input
+        return -1;
+    }
+
     pid_t pid = fork();
 
     if (pid < 0)
@@ -38,7 +43,7 @@ pid_t execute_process(const char *command, char **argv)
     else if (pid == 0)
     {
         char *environment[] = {env, NULL};
-        execve(command, argv, environment);
+        execve(argv[0], argv, environment);
         _exit(1);
     }
 

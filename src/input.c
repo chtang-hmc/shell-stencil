@@ -43,7 +43,7 @@ void userinput_cleanup()
 
 /*
  * @brief Receives a user input string and returns a "cleaned" version of the string.
- * 
+ *
  * @param user_input: the (messy) user input string
  * @param strlen: the length of the user input string (to avoid buffer
  *                overflow!)
@@ -52,7 +52,17 @@ void userinput_cleanup()
  *                 the clean string is returned to the caller
  * @returns: the length of the clean input string on success, else -1
  */
-long handle_user_input(const char *user_input, long strlen, char **command) {
+long handle_user_input(const char *user_input, long strlen, char **command)
+{
+    if (strlen == 0)
+    {
+        char *newstring = malloc(sizeof(char));
+        newstring[0] = '\0';
+        prev_command = newstring;
+        *command = newstring;
+        return -1;
+    }
+
     // identify beginning whitespaces
     long i = 0;
     while (i < strlen && *(user_input + i) == ' ')
@@ -103,6 +113,10 @@ long handle_user_input(const char *user_input, long strlen, char **command) {
     }
     else
     { // we hit strlen without having a newline character
+        newstring = (char *)realloc(newstring, sizeof(char));
+        newstring[0] = '\0';
+        prev_command = newstring;
+        *command = newstring;
         return -1;
     }
 
@@ -124,7 +138,8 @@ long handle_user_input(const char *user_input, long strlen, char **command) {
  * @param tokens: a pointer to the array of tokens to be created
  * @returns: the number of tokens created on success, else -1
  */
-long tokenize_input(char *str, long strlen, char ***tokens) {
+long tokenize_input(char *str, long strlen, char ***tokens)
+{
     num_tokens = 0;
 
     char **tokens_array = malloc(sizeof(char *) * (strlen + 1));
@@ -157,7 +172,7 @@ long tokenize_input(char *str, long strlen, char ***tokens) {
         {
             tokens_array[num_tokens] = NULL;
 
-            tokens_array = (char **)realloc(tokens_array, sizeof(char *) * num_tokens);
+            tokens_array = (char **)realloc(tokens_array, sizeof(char *) * (num_tokens + 1));
             *tokens = tokens_array; // return the allocated tokens array
             return num_tokens;
         }
@@ -166,5 +181,6 @@ long tokenize_input(char *str, long strlen, char ***tokens) {
     }
 
     free(tokens_array);
+    *tokens = NULL;
     return -1;
 }
