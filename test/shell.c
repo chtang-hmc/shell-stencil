@@ -19,6 +19,7 @@ int do_shell()
         long command_length = 0;
         while (fgets(input_buffer, BUFFER_SIZE, stdin))
         {
+            // the section has a miss by 1 error
             command_length += strlen(input_buffer);
             command = (char *)realloc(command, sizeof(char) * command_length);
             command = strncat(command, input_buffer, BUFFER_SIZE);
