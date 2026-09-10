@@ -98,10 +98,14 @@ int strncmp(const char *s1, const char *s2, long n)
     long i = 0;
     while (i < n)
     {
-        cmp = *(s1 + i) - *(s2 + i);
+        cmp = s1[i] - s2[i];
         if (cmp != 0)
         {
             return cmp;
+        }
+        else if (s1[i] == '\0')
+        {
+            return 0;
         }
         i++;
     }

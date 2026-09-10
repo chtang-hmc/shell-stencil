@@ -28,6 +28,7 @@ void userinput_reset()
         free(tokens[i]);
     }
     free(tokens);
+    tokens = NULL;
     free(prev_command);
 
     userinput_init();
