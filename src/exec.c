@@ -43,7 +43,7 @@ pid_t execute_process(const char *command, char **argv)
     else if (pid == 0)
     {
         char *environment[] = {env, NULL};
-        execve(command, argv, environment);
+        execve(argv[0], argv, environment);
         _exit(1);
     }
 
